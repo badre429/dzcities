@@ -1,0 +1,48 @@
+{
+    "results": [{
+        "address_components": [{
+            "long_name": "Lazrou",
+            "short_name": "Lazrou",
+            "types": ["locality", "political"]
+        }, {
+            "long_name": "Wilaya de Batna",
+            "short_name": "Wilaya de Batna",
+            "types": ["administrative_area_level_1", "political"]
+        }, {
+            "long_name": "Algérie",
+            "short_name": "DZ",
+            "types": ["country", "political"]
+        }],
+        "formatted_address": "Lazrou, Algérie",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 35.8756979,
+                    "lng": 6.3709545
+                },
+                "southwest": {
+                    "lat": 35.73285750000001,
+                    "lng": 6.16951
+                }
+            },
+            "location": {
+                "lat": 35.7721622,
+                "lng": 6.3013432
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 35.8756979,
+                    "lng": 6.3709545
+                },
+                "southwest": {
+                    "lat": 35.73285750000001,
+                    "lng": 6.16951
+                }
+            }
+        },
+        "place_id": "ChIJKzmyr7Xw8xIRdxTjVh-tJJ0",
+        "types": ["locality", "political"]
+    }],
+    "status": "OK"
+}
