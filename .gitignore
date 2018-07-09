@@ -1,0 +1,5 @@
+obj
+bin
+tmp*
+GeopolicalMaps
+node_modules
