@@ -43,6 +43,18 @@ namespace GeopolicalMaps
             {
                 sw.Write(Newtonsoft.Json.JsonConvert.SerializeObject(all));
             }
+            foreach (var item in all)
+            {
+                try
+                {
+                    var jsonPath = JsonFolder(item.ISO);
+                    var jsonUrl = @"https://gm-gpm.s3.amazonaws.com/gj/cntry/dz/" + item.ISO.Replace("-", "_") + ".geojson";
+                    DownloadFile(jsonUrl, jsonPath);
+                }
+                catch (System.Exception)
+                {
+                }
+            }
         }
         private static List<AdmnistrativeLocality> AddLevelThree(List<AdmnistrativeLocality> l2)
         {
@@ -54,6 +66,11 @@ namespace GeopolicalMaps
                 var wilHtmlPath = htmlCode(dayraItems.ISO);
 
                 var wilL2Url = urll3 + dayraItems.URL.Substring(dayraItems.URL.LastIndexOf('/') + 1);
+                var i = wilL2Url.IndexOf("-(");
+                if (i > 0)
+                {
+                    wilL2Url = wilL2Url.Substring(0, i);
+                }
                 DownloadFile(wilL2Url, wilHtmlPath);
                 var doc = new HtmlDocument();
                 doc.Load(wilHtmlPath);
@@ -74,11 +91,11 @@ namespace GeopolicalMaps
                     //   <td>
                     //     <input
                     var id = baladyaColumns[0].Element("table").Element("tr").Element("td").Element("input").GetAttributeValue("id", "");
-                    n.ISO = id;
+                    n.ISO = id.Substring(3);
                     n.CodeParrent = dayraItems.Code;
                     var w1 = baladyaColumns[1];
                     var a1 = w1.Element("a");
-                    n.Level = 2;
+                    n.Level = 3;
                     n.URL = @"http://www.geopoliticalmaps.com/" + a1.GetAttributeValue("href", "");
                     n.URL_Name = a1.InnerText.Trim();
                     n.Name = (n.URL_Name.Replace("Daira", "").Trim());
@@ -128,7 +145,7 @@ namespace GeopolicalMaps
                     //   <td>
                     //     <input
                     var id = wilayaColumns[0].Element("table").Element("tr").Element("td").Element("input").GetAttributeValue("id", "");
-                    n.ISO = id;
+                    n.ISO = id.Substring(3);
                     n.CodeParrent = wilayaItem.Code;
                     var w1 = wilayaColumns[1];
                     var a1 = w1.Element("a");
@@ -194,9 +211,18 @@ namespace GeopolicalMaps
         {
             return "./html/" + code + ".html";
         }
+        public static string JsonFolder(string code)
+        {
+            return "./geo/" + code + ".json";
+        }
         public static void DownloadFile(string downloadUrl, string filePath)
         {
-            if (File.Exists(filePath)) return;
+            if (File.Exists(filePath))
+            {
+                var fi = new FileInfo(filePath);
+                if (fi.Length > 0)
+                    return;
+            }
             WebClient client = new WebClient();
             client.DownloadFile(downloadUrl, filePath);
         }
